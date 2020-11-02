@@ -7,7 +7,7 @@ import 'here-js-api/scripts/mapsjs-clustering';
 import 'here-js-api/styles/mapsjs-ui.css';
 import './Anfahrt.css'
 
-export default class Anfahrt extends React.Component {
+export default class MapRoute extends React.Component {
   constructor(props){
     super();
     this.drawRoute = this.drawRoute.bind(this);
@@ -38,7 +38,7 @@ export default class Anfahrt extends React.Component {
 
     const defaultLayers = platform.createDefaultLayers();
     let layer;
-    if(this.props.mapLayer != "Satellite"){
+    if(this.props.mapLayer !== "Satellite"){
       layer =defaultLayers.vector.normal.map;
     }else{
       layer = defaultLayers.raster.satellite.map

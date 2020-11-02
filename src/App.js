@@ -5,19 +5,37 @@ import Anfahrt from "./Components/Anfahrt";
 import Wetter from "./Components/Wetter";
 import icon from "./map_icon.png"
 
-function App() {
-    return (
+export default class App extends React.Component {
+    constructor(props){
+        super(props);
+        this.state={
+            response:[],
+        }
+    }
+    componentDidMount() {
+        fetch('http://localhost:3030/events')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
 
-        <main>
+                this.setState({response: data.events});
+            });
+    }
+    render(){
+        return <main>
             <section id="kalender" className="container">
                 <div className="row align-items-center">
                     <div className="col-md-5 text-md-right">
                         <h2>Jede Menge spannender Events</h2>
-                        <div>hier Komponenten einfügen</div>
+                        <div>Einzigartige Erlebnisse in den Bergen</div>
                     </div>
                     <div className="offset-md-1 col-md-6 mt-5 mt-md-0">
                         <div className="card h-100 mh-200">
-                            <Kalender/>
+                            <Kalender
+                                mode="month"
+                                events={this.state.response}
+                                firstDay={1}
+                            />
                         </div>
                     </div>
                 </div>
@@ -56,7 +74,5 @@ function App() {
                 </div>
             </section>
         </main>
-    );
+    }
 }
-
-export default App;
