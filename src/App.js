@@ -23,33 +23,39 @@ export default class App extends React.Component {
     }
     render(){
         return <main>
-            <section id="kalender" className="container">
+            <section id="wetter" className="container">
                 <div className="row align-items-center">
-                    <div className="col-md-5 text-md-right">
-                        <h2>Jede Menge spannender Events</h2>
-                        <div>Einzigartige Erlebnisse in den Bergen</div>
+                    <div className="col-md-5 offset-md-1 order-md-last">
+                        <h2>Aktuelles Wetter</h2>
+                        <div>hier Komponenten einfügen</div>
                     </div>
-                    <div className="offset-md-1 col-md-6 mt-5 mt-md-0">
+                    <div className="col-md-6 mt-md-0 mt-5">
                         <div className="card h-100 mh-200">
-                            <Kalender
-                                mode="month"
-                                events={this.state.response}
-                                firstDay={1}
+                            <Wetter
+                                lat="47.495389"
+                                lon="-10.078583"
+                                apikey="751b6ffac26be0a1d11e0531a245bab0"
+                                iconBase="http://localhost:3030/"
+                                exclude="temperature,wind"
                             />
                         </div>
                     </div>
                 </div>
             </section>
             <div className="bg-lightgray">
-                <section id="wetter" className="container">
+                <section id="kalender" className="container">
                     <div className="row align-items-center">
-                        <div className="col-md-5 offset-md-1 order-md-last">
-                            <h2>Aktuelles Wetter</h2>
-                            <div>hier Komponenten einfügen</div>
+                        <div className="col-md-5 text-md-right">
+                            <h2>Jede Menge spannender Events</h2>
+                            <div>Einzigartige Erlebnisse in den Bergen</div>
                         </div>
-                        <div className="col-md-6 mt-md-0 mt-5">
+                        <div className="offset-md-1 col-md-6 mt-5 mt-md-0">
                             <div className="card h-100 mh-200">
-                                <Wetter/>
+                                <Kalender
+                                    mode="month"
+                                    events={this.state.response}
+                                    firstDay={1}
+                                />
                             </div>
                         </div>
                     </div>
