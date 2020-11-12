@@ -116,7 +116,7 @@ class Daily extends React.Component{
               :""}
           {!this.props.exclude.includes("rain")?
               <p><img className="icon" src={this.props.iconBase + "rain.svg"}/>
-                {parseFloat(this.props.item.pop)*100 + "%" +
+                {parseInt(parseFloat(this.props.item.pop)*100) + "%" +
                 (this.props.item.rain?", " + this.props.item.rain+"mm":"")
                 +(this.props.item.snow?", " + this.props.item.snow+"mm":"")}
               </p>

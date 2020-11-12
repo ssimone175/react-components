@@ -105,6 +105,7 @@ export default class MapRoute extends React.Component {
       // ensure that at least one route was found
       if (result.routes.length) {
         result.routes[0].sections.forEach((section) => {
+          console.log((new Date(section.arrival.time).getTime()-new Date(section.departure.time).getTime())/3600000);
           // Create a linestring to use as a point source for the route line
           let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
 
@@ -190,7 +191,7 @@ export default class MapRoute extends React.Component {
     return (
         <div className="w-100">
           <form onSubmit={this.handleSubmit.bind(this)} >
-            <input className="form-control" ref={this.input}  type="text" name="name" placeholder={startVal}/>
+            <input className="form-control" ref={this.input}  type="text" name="name" defaultValue={startVal}/>
             <button type="submit" value="Route starten" >Route starten</button>
           </form>
           <div ref={this.mapRef} style={{ height: "500px", width:"100%" }} />

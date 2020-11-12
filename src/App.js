@@ -36,7 +36,8 @@ export default class App extends React.Component {
                                 lon="-10.078583"
                                 apikey="751b6ffac26be0a1d11e0531a245bab0"
                                 iconBase="http://localhost:3030/"
-                                exclude="temperature,wind"
+                                exclude="wind"
+                                lang="de"
                             />
                         </div>
                     </div>
@@ -51,6 +52,16 @@ export default class App extends React.Component {
                         </div>
                         <div className="offset-md-1 col-md-6 mt-5 mt-md-0">
                             <div className="card h-100 mh-200">
+                                <Kalender
+                                    mode="day"
+                                    events={this.state.response}
+                                    firstDay={1}
+                                />
+                                <Kalender
+                                    mode="week"
+                                    events={this.state.response}
+                                    firstDay={1}
+                                />
                                 <Kalender
                                     mode="month"
                                     events={this.state.response}
@@ -70,7 +81,7 @@ export default class App extends React.Component {
                     <div className="card mh-200">
                         <Anfahrt
                             origin="Pfaffenriederstraße 6 88410 Bad Wurzach"
-                            destination="Hochgrat Bayern"
+                            destination="Steibis Bayern"
                             apiKey="om3n1r09-nhi9VtVkpc8mB6VbRghKiATYoeRxP-AjOc"
                             lineColor="green"
                             icon={icon}
