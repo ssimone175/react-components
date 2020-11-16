@@ -22,14 +22,13 @@ export default class MapRoute extends React.Component {
       map: null,
       origin:props.origin,
       destination:props.destination,
-      oldOrigin:""
+      duration:""
     };
 
   }
 
 
   componentDidMount() {
-
     const H = window.H;
     const platform = new H.service.Platform({
       apikey: this.props.apiKey
@@ -64,110 +63,115 @@ export default class MapRoute extends React.Component {
 
     this.setState({ map });
 
-
-
     if(this.props.icon){
       this.icon = new H.map.Icon(this.props.icon);
     }
 
-    this.drawRoute();
+    this.drawRoute("",this.state.origin);
   }
 
-  drawRoute(){
+  drawRoute(oldOg, og){
     let platform = this.platform;
     let map = this.map;
     let H = window.H;
     let icon = this.icon;
-    let adr = this.state.origin;
+    let adr = og;
 
-    if(this.state.oldOrigin){
+    if(oldOg){
       for (let obj of map.getObjects()){
-        if(obj.id === this.state.oldOrigin){
+        if(obj.id === oldOg){
           map.removeObject(obj);
         }
       }
     }
 
-    let origin;
-    let destination;
+      if (adr.trim()){
+          let origin;
+          let destination;
 
-    let onError = (error) => {
-      alert(error.message);
-    }
+          let onError = (error) => {
+              alert(error.message);
+          }
 
 // create an instance of the routing service and make a request
-    let router = platform.getRoutingService(null, 8);
+          let router = platform.getRoutingService(null, 8);
 
-    let color = this.props.lineColor;
+          let color = this.props.lineColor;
 
 // Define a callback function to process the routing response:
-    let onResult = function(result) {
-      // ensure that at least one route was found
-      if (result.routes.length) {
-        result.routes[0].sections.forEach((section) => {
-          console.log((new Date(section.arrival.time).getTime()-new Date(section.departure.time).getTime())/3600000);
-          // Create a linestring to use as a point source for the route line
-          let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
+          let onResult = function (result) {
+              // ensure that at least one route was found
+              if (result.routes.length) {
+                  result.routes[0].sections.forEach((section) => {
+                      let duration = (new Date(section.arrival.time).getTime() - new Date(section.departure.time).getTime()) / 3600000;
+                      duration = duration - (duration % 1) + "h " + Math.round((duration%1)*60) +"min";
+                      this.setState({duration: <p className="overlay">{duration}</p>});
 
-          // Create a polyline to display the route:
-          let routeLine = new H.map.Polyline(linestring, {
-            style: { strokeColor: color, lineWidth: 3 }
-          });
-          routeLine.id = adr;
+                      // Create a linestring to use as a point source for the route line
+                      let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
 
-          // Create a marker for the start point:
-          let startMarker = new H.map.Marker(section.departure.place.location, {icon:icon});
-          startMarker.id = adr;
+                      // Create a polyline to display the route:
+                      let routeLine = new H.map.Polyline(linestring, {
+                          style: {strokeColor: color, lineWidth: 3}
+                      });
+                      routeLine.id = adr;
 
-          // Create a marker for the end point:
-          let endMarker = new H.map.Marker(section.arrival.place.location, {icon:icon});
-          endMarker.id = adr;
+                      // Create a marker for the start point:
+                      let startMarker = new H.map.Marker(section.departure.place.location, {icon: icon});
+                      startMarker.id = adr;
 
-          // Add the route polyline and the two markers to the map:
-          map.addObjects([routeLine, startMarker, endMarker]);
+                      // Create a marker for the end point:
+                      let endMarker = new H.map.Marker(section.arrival.place.location, {icon: icon});
+                      endMarker.id = adr;
 
-          // Set the map's viewport to make the whole route visible:
-          map.getViewModel().setLookAtData({bounds: routeLine.getBoundingBox()});
-        });
-      }
-    };
+                      // Add the route polyline and the two markers to the map:
+                      map.addObjects([routeLine, startMarker, endMarker]);
 
-    let routingParameters = {
-      'transportMode': 'car',
-      // Include the route shape in the response
-      'return': 'polyline'
-    };
+                      // Set the map's viewport to make the whole route visible:
+                      map.getViewModel().setLookAtData({bounds: routeLine.getBoundingBox()});
+                  });
+              }
+          };
+
+          let routingParameters = {
+              'transportMode': 'car',
+              // Include the route shape in the response
+              'return': 'polyline'
+          };
 
 // Define a callback that calculates the route
-    let calculateRoute = () => {
-      // Make sure that both destination and origin are present
-      if (!origin || !destination) return;
+          let calculateRoute = () => {
+              // Make sure that both destination and origin are present
+              if (!origin || !destination) return;
 
-      // Add origin and destination to the routing parameters
-      routingParameters.origin = origin;
-      routingParameters.destination = destination;
+              // Add origin and destination to the routing parameters
+              routingParameters.origin = origin;
+              routingParameters.destination = destination;
 
-      router.calculateRoute(routingParameters, onResult, onError);
-    }
+              router.calculateRoute(routingParameters, onResult.bind(this), onError);
+          }
 
 // get the instance of the Search service
-    var service = platform.getSearchService();
+          var service = platform.getSearchService();
 
 // geocode origin point
-    service.geocode({
-      q: this.state.origin
-    }, (result) => {
-      origin = result.items[0].position.lat + ',' + result.items[0].position.lng;
-      calculateRoute();
-    }, onError);
+          service.geocode({
+              q: adr
+          }, (result) => {
+              origin = result.items[0].position.lat + ',' + result.items[0].position.lng;
+              calculateRoute();
+          }, onError);
 
 // geocode a destination point
-    service.geocode({
-      q: this.state.destination
-    }, (result) => {
-      destination = result.items[0].position.lat + ',' + result.items[0].position.lng;
-      calculateRoute();
-    }, onError)
+          service.geocode({
+              q: this.state.destination
+          }, (result) => {
+              destination = result.items[0].position.lat + ',' + result.items[0].position.lng;
+              calculateRoute();
+          }, onError)
+      }else{
+          this.setState({duration:""});
+      }
   }
 
   componentWillUnmount() {
@@ -178,12 +182,12 @@ export default class MapRoute extends React.Component {
   handleSubmit(event){
     this.setState({oldOrigin: this.state.origin, origin:this.input.current.value});
     event.preventDefault();
+    if(this.state.origin!==this.input.current.value){
+        this.drawRoute(this.state.origin,this.input.current.value);
+    }
   }
 
   render() {
-    if(this.platform && this.map && this.state.origin.trim()){
-      this.drawRoute();
-    }
     let startVal = "Startpunkt";
     if(this.props.origin){
       startVal = this.props.origin;
@@ -194,6 +198,7 @@ export default class MapRoute extends React.Component {
             <input className="form-control" ref={this.input}  type="text" name="name" defaultValue={startVal}/>
             <button type="submit" value="Route starten" >Route starten</button>
           </form>
+            {this.state.duration}
           <div ref={this.mapRef} style={{ height: "500px", width:"100%" }} />
         </div>
     );

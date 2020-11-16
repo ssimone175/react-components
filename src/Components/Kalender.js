@@ -139,13 +139,13 @@ class Event extends React.Component{
       <p className="name">{this.props.info.name}</p>
       <div className={infoClass}>
         <p className="title">{this.props.info.name}</p>
-        {this.props.info.description?
+        {this.props.info.description.trim()?
             <p className="description">
               {this.props.info.description}<br/><br/>
-              {this.props.info.link? <a className="btn btn-dark" href={this.props.info.link} target="_blank" rel="noopener noreferrer">Mehr erfahren</a>: " "}
+              {this.props.info.link.trim()? <a className="btn btn-dark" href={this.props.info.link} target="_blank" rel="noopener noreferrer">Mehr erfahren</a>: " "}
             </p>
             : <p className="description">
-              {this.props.info.link?
+              {this.props.info.link.trim()?
                   <a className="btn btn-dark" href={this.props.info.link} target="_blank" rel="noopener noreferrer">
                     Mehr erfahren
                   </a>
