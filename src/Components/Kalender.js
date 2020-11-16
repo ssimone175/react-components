@@ -113,11 +113,15 @@ class Day extends React.Component{
     if(date.getDate() === today.getDate() && date.getMonth() === today.getMonth()){
       dayClass += " today";
     }
+    let ev = [];
     for(let i = 0; i< events.length; i++){
       if(date.getDate()=== parseInt(events[i].day) && date.getMonth()+1=== parseInt(events[i].month) && date.getFullYear()=== parseInt(events[i].year)){
         dayClass += " event";
-        return <Event classes={dayClass} info={events[i]} date={date}/>;
+        ev.push(events[i]);
       }
+    }
+    if(ev.length>0){
+      return <Event classes={dayClass} info={ev} date={date}/>;
     }
     return <div className={dayClass}>{this.props.date.getDate()}</div>;
   }
@@ -134,23 +138,35 @@ class Event extends React.Component{
     if(this.state.infoShow){
       infoClass += "show";
     }
-    return <div onClick={()=> this.setState({infoShow: !this.state.infoShow})}
-                className={this.props.classes + " weekday-" + this.props.date.getDay()}> {this.props.info.day}
-      <p className="name">{this.props.info.name}</p>
-      <div className={infoClass}>
-        <p className="title">{this.props.info.name}</p>
-        {this.props.info.description.trim()?
+    let name = "";
+    for(let i =0; i < this.props.info.length;i++){
+      name += " " +this.props.info[i].name + " ";
+    }
+    if(name.length>14){
+      name=name.slice(0,14)+"...";
+    };
+    let infos = this.props.info.map( ev =>{
+      return <div key={ev.name}>
+        <p className="title">{ev.name}</p>
+        {ev.description.trim()?
             <p className="description">
-              {this.props.info.description}<br/><br/>
-              {this.props.info.link.trim()? <a className="btn btn-dark" href={this.props.info.link} target="_blank" rel="noopener noreferrer">Mehr erfahren</a>: " "}
+              {ev.description}<br/><br/>
+              {ev.link.trim()? <a className="btn btn-dark" href={ev.link} target="_blank" rel="noopener noreferrer">Mehr erfahren</a>: " "}
             </p>
             : <p className="description">
-              {this.props.info.link.trim()?
-                  <a className="btn btn-dark" href={this.props.info.link} target="_blank" rel="noopener noreferrer">
+              {ev.link.trim()?
+                  <a className="btn btn-dark" href={ev.link} target="_blank" rel="noopener noreferrer">
                     Mehr erfahren
                   </a>
                   : " "}
             </p>}
+      </div>
+    });
+    return <div onClick={()=> this.setState({infoShow: !this.state.infoShow})}
+                className={this.props.classes + " weekday-" + this.props.date.getDay()}> {this.props.info[0].day}
+      <p className="name">{name}</p>
+      <div className={infoClass}>
+        {infos}
       </div>
     </div>
   }

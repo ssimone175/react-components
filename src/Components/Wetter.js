@@ -99,7 +99,7 @@ class Daily extends React.Component{
       tempIcon = "temperature-cold.svg";
     }
     return <div className={this.props.className} id={this.props.id} onClick={this.props.onClick}>
-      <div className="day">
+      <div className="weather-day">
         <div className="base">
           <img id="icon" src={this.props.iconBase+this.props.item.weather[0].icon + ".png"}/>
           <p id="date">{getWeekdayName(date.getDay())}</p>
