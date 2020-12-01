@@ -1,16 +1,13 @@
 import React from 'react';
 import './Kalender.css';
-
 function getMonthName(number){
   let month = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
   return month[number];
 }
-
 function getWeekdayName(number){
   let weekdays = ["SO", "MO", "DI", "MI", "DO", "FR", "SA"];
   return weekdays[number];
 }
-
 export default class Calendar extends React.Component{
   constructor(props){
     super(props);
@@ -18,7 +15,6 @@ export default class Calendar extends React.Component{
       startDate: new Date(),
     }
   }
-
   onCalendarChange(next){
     let tmp = new Date(this.state.startDate.getTime());
     let factor = (next ? 1 : -1);
@@ -37,7 +33,6 @@ export default class Calendar extends React.Component{
         break;
     }
   }
-
   render(){
     let firstWeekDay = (this.props.firstDay!==undefined?this.props.firstDay:1);
     const days = [];
@@ -103,11 +98,9 @@ export default class Calendar extends React.Component{
   }
 }
 class Day extends React.Component{
-
   render(){
     const date = this.props.date;
     const events = this.props.events;
-
     let today = new Date();
     let dayClass = "date " + (this.props.oldMonth?"oldMonth ":" ");
     if(date.getDate() === today.getDate() && date.getMonth() === today.getMonth()){

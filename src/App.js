@@ -35,7 +35,6 @@ export default class App extends React.Component {
                                 lat="47.495389"
                                 lon="-10.078583"
                                 apikey="751b6ffac26be0a1d11e0531a245bab0"
-                                iconBase="http://localhost:3030/"
                                 exclude="wind"
                                 lang="de"
                             />

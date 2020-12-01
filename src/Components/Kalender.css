@@ -1,11 +1,5 @@
 :root{
-    --event-background: #97B89A;
-    --event-hover-background: #556B57;
-    --header-background: #556B57;
-    --btn:#556B57;
-    --btn-hover: #3b4a3c;
 }
-
 .calendar{
     display:flex;
     width:100%;
@@ -13,10 +7,9 @@
     flex-wrap:wrap;
     position: relative;
     padding: 2em 1em;
-
 }
 .calendar header{
-    background:var(--header-background);
+    background:var(--header-background,#8D99AE);
     height: auto;
     width:100%;
     display:flex;
@@ -54,11 +47,10 @@ button.before, button.next, button.before:hover, button.next:hover{
     margin-top: 1.5em;
 }
 .date.event{
-    background: var(--event-background);
+    background: var(--event-background, #8D99AE);
 }
-
 .date.event:hover{
-    background: var(--event-hover-background);
+    background: var(--event-hover-background, #8D99AE);
     cursor:pointer;
 }
 .date.event .info{
@@ -76,7 +68,6 @@ button.before, button.next, button.before:hover, button.next:hover{
     border-radius:3px;
     box-shadow: 0px 0px 10px 10px rgba(0,0,0,0.05);
 }
-
 .date.event .name{
     color:black;
     position:absolute;
@@ -85,7 +76,6 @@ button.before, button.next, button.before:hover, button.next:hover{
     max-width:100%;
     line-height:1em;
 }
-
 .date.event .info.show{
     display:table;
 }
@@ -93,16 +83,15 @@ button.before, button.next, button.before:hover, button.next:hover{
     font-size: 0.7em;
     text-align: left;
 }
-
 .btn-dark {
     color: #fff;
-    background-color: var(--btn);
-    border-color: var(--btn);
+    background-color: var(--btn, #8D99AE);
+    border-color: var(--btn, #8D99AE);
 }
 .btn-dark:hover {
     color: #fff;
-    background-color: var(--btn-hover);
-    border-color: var(--btn-hover);
+    background-color: var(--btn-hover, #5D6B83);
+    border-color: var(--btn-hover, #5D6B83);
 }
 .btn {
     border: 1px solid transparent;
@@ -111,7 +100,6 @@ button.before, button.next, button.before:hover, button.next:hover{
     line-height: 1.5;
     border-radius: .25rem;
 }
-
 .month .date.event .name{
     display:none;
 }
@@ -123,7 +111,6 @@ button.before, button.next, button.before:hover, button.next:hover{
     font-size:4em;
     padding:1em;
 }
-
 .day.calendar .date.week-day{
     font-size:1.5em;
     position: absolute;
@@ -140,7 +127,6 @@ button.before, button.next, button.before:hover, button.next:hover{
     font-size:0.3em;
     bottom:0;
 }
-
 @media(max-width:567px){  /*Bootstrap Size S*/
     .firstDay-1 .date.event.weekday-1 .info.show{
         left:0;

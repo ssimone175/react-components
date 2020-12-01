@@ -1,15 +1,12 @@
 import React from 'react';
 import './Wetter.css';
-
-
 function getWeekdayName(number){
   let weekdays = ["SO", "MO", "DI", "MI", "DO", "FR", "SA"];
   return weekdays[number];
 }
-
 export default class Weather extends React.Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state={
       days:1,
       dayClass:"current",
@@ -17,7 +14,6 @@ export default class Weather extends React.Component{
       chosenItem: undefined
     }
   }
-
   componentDidMount(){
     if(this.props.lat && this.props.lon && this.props.apikey){
       let unit = (this.props.units?this.props.units:"metric");
@@ -38,9 +34,9 @@ export default class Weather extends React.Component{
       this.setState({chosenItem: this.state.response[0]})
     }
   }
-
   render(){
     let forecasts = [];
+    let iconBase = this.props.iconBase?this.props.iconBase:"http://localhost:3030/";
     if(this.state.response.length >0){
       for (let i =0; i < this.state.days; i ++){
         forecasts.push(
@@ -52,14 +48,14 @@ export default class Weather extends React.Component{
                   this.setState({chosenItem: this.state.response[i]})
                 }}
                 exclude={this.props.exclude}
-                iconBase={this.props.iconBase}
+                iconBase={iconBase}
             />);
       }
       forecasts.push(<Daily
           key ="show"
           className="daily-forecast"
           id="show"
-          iconBase={this.props.iconBase}
+          iconBase={iconBase}
           item={this.state.chosenItem}
           exclude={this.props.exclude}
       />);
@@ -85,7 +81,6 @@ export default class Weather extends React.Component{
     </div>;
   }
 }
-
 class Daily extends React.Component{
   render(){
     let sunrise = new Date(parseInt(this.props.item.sunrise)*1000);
@@ -101,37 +96,37 @@ class Daily extends React.Component{
     return <div className={this.props.className} id={this.props.id} onClick={this.props.onClick}>
       <div className="weather-day">
         <div className="base">
-          <img id="icon" src={this.props.iconBase+this.props.item.weather[0].icon + ".png"}/>
+          <img alt={this.props.item.weather[0].description} id="icon" src={this.props.iconBase+this.props.item.weather[0].icon + ".png"}/>
           <p id="date">{getWeekdayName(date.getDay())}</p>
         </div>
         <div className="extra">
           <p>
-            <img className="icon" src={this.props.iconBase+this.props.item.weather[0].icon + ".png"}/>
+            <img alt={this.props.item.weather[0].description} className="icon" src={this.props.iconBase+this.props.item.weather[0].icon + ".png"}/>
             {this.props.item.weather[0].description}
           </p>
           {!this.props.exclude.includes("temperature")?
-              <p><img className="icon" src={this.props.iconBase + tempIcon}/>
+              <p><img alt="Temperature Icon" className="icon" src={this.props.iconBase + tempIcon}/>
                 {this.props.item.temp.min + "° / " + this.props.item.temp.max + "°"}
               </p>
               :""}
           {!this.props.exclude.includes("rain")?
-              <p><img className="icon" src={this.props.iconBase + "rain.svg"}/>
+              <p><img alt="Rain Icon" className="icon" src={this.props.iconBase + "rain.svg"}/>
                 {parseInt(parseFloat(this.props.item.pop)*100) + "%" +
                 (this.props.item.rain?", " + this.props.item.rain+"mm":"")
                 +(this.props.item.snow?", " + this.props.item.snow+"mm":"")}
               </p>
               :""}
           {!this.props.exclude.includes("wind")?
-              <p><img className="icon" src={this.props.iconBase + "wind.svg"}/>
+              <p><img alt="Wind Icon" className="icon" src={this.props.iconBase + "wind.svg"}/>
                 {this.props.item.wind_speed + "m/s"}
               </p>
               :""}
           {!this.props.exclude.includes("sun")?
               <div>
-              <p><img className="icon" src={this.props.iconBase + "sunrise.svg"}/>
+              <p><img alt="Sunrise Icon" className="icon" src={this.props.iconBase + "sunrise.svg"}/>
                 {sunrise.getHours() + ":" + (sunrise.getMinutes() <10? "0":"") + sunrise.getMinutes()}
               </p>
-              <p><img className="icon" src={this.props.iconBase + "sunset.svg"}/>
+              <p><img alt="Sunset Icon" className="icon" src={this.props.iconBase + "sunset.svg"}/>
                 {sunset.getHours() + ":" + (sunset.getMinutes() <10? "0":"")+ sunset.getMinutes()}
               </p>
               </div>

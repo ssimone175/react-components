@@ -1,16 +1,15 @@
-:root{
-    --background: #f2f2f2;
-    --background-chosen: #dff0ff;
-    --background-deactived: #e6e6e6;
-}
 .weather{
     width:100%;
+    max-width: 600px;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
 }
 #weather{
     display:flex;
     position: relative;
     flex-wrap: wrap;
-    background:var(--background);
+    background:var(--background,#fff);
 }
 .btn-group{
     display: flex;
@@ -21,13 +20,13 @@
     width:100%;
     padding:1em;
     font-family: Lato, sans-serif;
-    background:var(--background-deactived)
+    background:var(--background-deactived, #f2f2f2)
 }
 .btn-group button.active{
-    background: var(--background);
+    background: var(--background,#fff);
 }
 .daily-forecast{
-    background: var(--background);
+    background: var(--background,#fff);
     padding:5%;
     box-sizing: border-box;
     display:flex;
@@ -38,7 +37,7 @@
     cursor:pointer;
 }
 .daily-forecast.chosen{
-    background:var(--background-chosen);
+    background:var(--background-chosen, #dff0ff);
 }
 .three .daily-forecast:not(#show)
 {
