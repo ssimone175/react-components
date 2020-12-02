@@ -35,8 +35,9 @@ export default class Weather extends React.Component{
     }
   }
   render(){
+    let exclude = this.props.exclude!=undefined?this.props.exclude:"";
     let forecasts = [];
-    let iconBase = this.props.iconBase?this.props.iconBase:"http://localhost:3030/";
+    let iconBase = this.props.iconBase?this.props.iconBase:"https://web-components-bachelor.netlify.app/Components/Wetter/";
     if(this.state.response.length >0){
       for (let i =0; i < this.state.days; i ++){
         forecasts.push(
@@ -47,7 +48,7 @@ export default class Weather extends React.Component{
                 onClick={()=> {
                   this.setState({chosenItem: this.state.response[i]})
                 }}
-                exclude={this.props.exclude}
+                exclude={exclude}
                 iconBase={iconBase}
             />);
       }
@@ -57,7 +58,7 @@ export default class Weather extends React.Component{
           id="show"
           iconBase={iconBase}
           item={this.state.chosenItem}
-          exclude={this.props.exclude}
+          exclude={exclude}
       />);
     }
     return <div className={"weather " + this.state.dayClass}>

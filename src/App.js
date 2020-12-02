@@ -35,8 +35,6 @@ export default class App extends React.Component {
                                 lat="47.495389"
                                 lon="-10.078583"
                                 apikey="751b6ffac26be0a1d11e0531a245bab0"
-                                exclude="wind"
-                                lang="de"
                             />
                         </div>
                     </div>
@@ -54,17 +52,14 @@ export default class App extends React.Component {
                                 <Kalender
                                     mode="day"
                                     events={this.state.response}
-                                    firstDay={1}
                                 />
                                 <Kalender
                                     mode="week"
                                     events={this.state.response}
-                                    firstDay={1}
+                                    firstDay={0}
                                 />
                                 <Kalender
-                                    mode="month"
                                     events={this.state.response}
-                                    firstDay={1}
                                 />
                             </div>
                         </div>

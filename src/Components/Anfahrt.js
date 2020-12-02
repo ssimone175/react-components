@@ -71,7 +71,7 @@ export default class MapRoute extends React.Component {
         }
       }
     }
-      if (adr.trim()){
+      if (adr && adr.trim()){
           let origin;
           let destination;
           let onError = (error) => {
@@ -79,7 +79,7 @@ export default class MapRoute extends React.Component {
           }
 // create an instance of the routing service and make a request
           let router = platform.getRoutingService(null, 8);
-          let color = this.props.lineColor;
+          let color = this.props.lineColor!=undefined?this.props.lineColor:"blue";
 // Define a callback function to process the routing response:
           let onResult = function (result) {
               // ensure that at least one route was found
@@ -140,6 +140,20 @@ export default class MapRoute extends React.Component {
           }, onError)
       }else{
           this.setState({duration:""});
+          let makeMarker = (goal) => {
+              let endMarker = new H.map.Marker(goal,{icon:icon});
+              endMarker.id = adr;
+              map.addObject(endMarker);
+              map.setCenter(goal);
+          }
+          let service = platform.getSearchService();
+          service.geocode({
+              q: this.state.destination
+          }, (result) => {
+              let center = result.items[0].position;
+              this.map.setZoom(10);
+              makeMarker(center);
+          }, alert);
       }
   }
   componentWillUnmount() {

@@ -26,10 +26,8 @@ export default class Calendar extends React.Component{
         this.setState({startDate: new Date(tmp.getFullYear(), tmp.getMonth(), tmp.getDate() + 7*factor)});
         break;
       case "month":
-        this.setState({startDate: new Date(tmp.getFullYear(), tmp.getMonth()+1*factor)});
-        break;
       default:
-        this.setState({startDate: new Date(tmp.getFullYear(), tmp.getMonth(), tmp.getDate() + 1*factor)});
+        this.setState({startDate: new Date(tmp.getFullYear(), tmp.getMonth()+1*factor)});
         break;
     }
   }
@@ -51,6 +49,7 @@ export default class Calendar extends React.Component{
         }
         break;
       case "month":
+      default:
         let first = new Date(this.state.startDate.getFullYear(), this.state.startDate.getMonth(), 1);
         while(first.getDay()!== firstWeekDay){
           first.setDate(first.getDate() - 1);
@@ -59,9 +58,6 @@ export default class Calendar extends React.Component{
           days.push(new Date(first.getTime()));
           first.setDate(first.getDate()+1);
         }
-        break;
-      default:
-        days.push(this.state.startDate);
         break;
     }
     let calendar = days.map((date) =>
@@ -73,10 +69,11 @@ export default class Calendar extends React.Component{
         />
     );
     let weekdays = [];
-    for(let i=0; i < (this.props.mode==="day"?1:7); i++){
+    let mode = this.props.mode!=undefined?this.props.mode:"month";
+    for(let i=0; i < (mode==="day"?1:7); i++){
       weekdays.push(<div key={getWeekdayName(days[i].getDay())} className="date week-day">{getWeekdayName(days[i].getDay())}</div>);
     }
-    return<div className={"calendar " + this.props.mode + " firstDay-" + firstWeekDay}>
+    return<div className={"calendar " + mode + " firstDay-" + firstWeekDay}>
       <header>
         <button className="before" onClick={this.onCalendarChange.bind(this,false)}>
           <svg height="25" width="15">
