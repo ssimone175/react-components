@@ -9,10 +9,12 @@ ReactDOM.render(
     </React.StrictMode>,
     document.getElementById('app')
 );
-/*import Test from "./test";
+/*
+import Test from "./test";
 ReactDOM.render(
     <React.StrictMode>
         <Test />
     </React.StrictMode>,
     document.getElementById('main')
-);*/
+);
+*/
