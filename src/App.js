@@ -13,11 +13,13 @@ export default class App extends React.Component {
         }
     }
     componentDidMount() {
+        this.setState({response: [{name:"Wegen Corona geschlossen",day:"1",month:"12",year:"2020",
+                description:"Bahn auf behördliche Anordnung wegen Corona nicht in Betrieb", link:"https://hochgrat.de"}]});
+
         fetch('http://localhost:3030/events')
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-
                 this.setState({response: data.events});
             });
     }
@@ -27,14 +29,16 @@ export default class App extends React.Component {
                 <div className="row align-items-center">
                     <div className="col-md-5 offset-md-1 order-md-last">
                         <h2>Aktuelles Wetter</h2>
-                        <div>hier Komponenten einfügen</div>
+                        <div>Touren auf dem Hochgrat sollten an die Wetterverhältnisse angepasst werden</div>
                     </div>
                     <div className="col-md-6 mt-md-0 mt-5">
                         <div className="card h-100 mh-200">
                             <Wetter
-                                lat="47.495389"
-                                lon="-10.078583"
+                                lat="47.554192"
+                                lon="10.022790"
                                 apikey="751b6ffac26be0a1d11e0531a245bab0"
+                                lang="de"
+                                units="metric"
                             />
                         </div>
                     </div>
@@ -44,20 +48,11 @@ export default class App extends React.Component {
                 <section id="kalender" className="container">
                     <div className="row align-items-center">
                         <div className="col-md-5 text-md-right">
-                            <h2>Jede Menge spannender Events</h2>
-                            <div>Einzigartige Erlebnisse in den Bergen</div>
+                            <h2>Einzigartige Erlebnisse</h2>
+                            <div>Diese Events finden in nächster Zeit auf dem Hochgrat statt</div>
                         </div>
                         <div className="offset-md-1 col-md-6 mt-5 mt-md-0">
                             <div className="card h-100 mh-200">
-                                <Kalender
-                                    mode="day"
-                                    events={this.state.response}
-                                />
-                                <Kalender
-                                    mode="week"
-                                    events={this.state.response}
-                                    firstDay={0}
-                                />
                                 <Kalender
                                     events={this.state.response}
                                 />
@@ -69,12 +64,11 @@ export default class App extends React.Component {
             <section id="anfahrt" className="container">
                 <div className="col-md-10 mx-auto text-center">
                     <h2>So finden Sie uns</h2>
-                    <div>hier Komponenten einfügen</div>
+                    <p>Besuchen Sie uns im Allgäu</p>
                 </div>
                 <div className="col-md-8 mx-auto mt-5">
                     <div className="card mh-200">
                         <Anfahrt
-                            origin="Pfaffenriederstraße 6 88410 Bad Wurzach"
                             destination="Steibis Bayern"
                             apiKey="om3n1r09-nhi9VtVkpc8mB6VbRghKiATYoeRxP-AjOc"
                             lineColor="green"
