@@ -44,6 +44,9 @@ section{
 .mh-200{
   min-height:200px;
 }
+.h-500{
+  height:500px;
+}
 .bg-lightgray{
   background-color: #f9f9f9;
 }

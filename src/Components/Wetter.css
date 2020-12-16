@@ -20,7 +20,8 @@
     width:100%;
     padding:1em;
     font-family: Lato, sans-serif;
-    background:var(--background-deactived, #f8f8f8)
+    background:var(--background-deactived, #f8f8f8);
+    line-height:normal;
 }
 .btn-group button.active{
     background: var(--background,#fff);
@@ -126,6 +127,14 @@
 }
 @media(max-width:300px){
     .btn-group{
+        font-size:0.9em;
+    }
+}
+@media(min-width:992px){
+    .weather-day img{
+        width:80%
+    }
+    .weather-day p#date{
         font-size:0.9em;
     }
 }

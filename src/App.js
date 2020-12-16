@@ -67,13 +67,14 @@ export default class App extends React.Component {
                     <p>Besuchen Sie uns im Allgäu</p>
                 </div>
                 <div className="col-md-8 mx-auto mt-5">
-                    <div className="card mh-200">
+                    <div className="card h-500">
                         <Anfahrt
                             destination="Steibis Bayern"
                             apiKey="om3n1r09-nhi9VtVkpc8mB6VbRghKiATYoeRxP-AjOc"
                             lineColor="green"
                             icon={icon}
                             uiLayer={true}
+                            height="428px"
                         />
                     </div>
                 </div>

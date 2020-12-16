@@ -80,3 +80,8 @@ button:active{
         width:60%;
     }
 }
+@media(max-width:286px){
+    button{
+        font-size:0.9em;
+    }
+}

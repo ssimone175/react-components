@@ -12,6 +12,7 @@ export default class MapRoute extends React.Component {
     this.drawRoute = this.drawRoute.bind(this);
     this.input = React.createRef();
     this.mapRef = React.createRef();
+    this.containerRef = React.createRef();
     this.platform= undefined;
     this.map = undefined;
     this.icon = undefined;
@@ -24,6 +25,14 @@ export default class MapRoute extends React.Component {
     };
   }
   componentDidMount() {
+
+      this.height= 0;
+      if(this.containerRef.current && this.input.current){
+          this.height=this.containerRef.current.clientHeight-this.input.current.clientHeight;
+      }
+      if(this.height<=0){
+          this.height="300";
+      }
     const H = window.H;
     const platform = new H.service.Platform({
       apikey: this.props.apiKey
@@ -168,18 +177,18 @@ export default class MapRoute extends React.Component {
     }
   }
   render() {
-    let startVal = "Startpunkt";
+    let startVal = "";
     if(this.props.origin){
       startVal = this.props.origin;
     }
     return (
-        <div className="map w-100">
+        <div className="map w-100 h-100" ref={this.containerRef}>
           <form onSubmit={this.handleSubmit.bind(this)} >
-            <input className="form-control" ref={this.input}  type="text" name="name" defaultValue={startVal}/>
+            <input className="form-control" ref={this.input}  type="text" name="name" defaultValue={startVal} placeholder="Startpunkt"/>
             <button type="submit" value="Route starten" >Route starten</button>
           </form>
             {this.state.duration}
-          <div id="test" ref={this.mapRef} style={{ height: "500px", width:"100%" }} />
+          <div ref={this.mapRef} style={{ height:this.props.height, width:"100%" }} />
         </div>
     );
   }
