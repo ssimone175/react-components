@@ -16,6 +16,7 @@
     justify-content: space-between;
     align-items: center;
     padding: .5em;
+    color:white;
 }
 .calendar header button{
     width:auto;
