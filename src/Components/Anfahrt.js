@@ -25,7 +25,6 @@ export default class MapRoute extends React.Component {
     };
   }
   componentDidMount() {
-
       this.height= 0;
       if(this.containerRef.current && this.input.current){
           this.height=this.containerRef.current.clientHeight-this.input.current.clientHeight;
