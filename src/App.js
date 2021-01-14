@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import all from  "./Components/Calendar.js";
 import Kalender from "./Components/Kalender";
 import Anfahrt from "./Components/Anfahrt";
 import Wetter from "./Components/Wetter";
@@ -27,7 +26,6 @@ export default class App extends React.Component {
     render(){
         return <main>
             <section id="wetter" className="container">
-                <event-calendar first="0" mode="week"></event-calendar>
                 <div className="row align-items-center">
                     <div className="col-md-5 offset-md-1 order-md-last">
                         <h2>Aktuelles Wetter</h2>
